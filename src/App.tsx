@@ -13,6 +13,7 @@ import StudyTools from "./pages/StudyTools";
 import StudyGroups from "./pages/StudyGroups";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import SupabaseTest from "./pages/SupabaseTest";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/sleep" element={<ProtectedRoute><SleepTracker /></ProtectedRoute>} />
           <Route path="/tools" element={<ProtectedRoute><StudyTools /></ProtectedRoute>} />
           <Route path="/groups" element={<ProtectedRoute><StudyGroups /></ProtectedRoute>} />
+          <Route path="/test-supabase" element={<SupabaseTest />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

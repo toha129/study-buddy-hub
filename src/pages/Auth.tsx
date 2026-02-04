@@ -23,6 +23,18 @@ const Auth = () => {
     }
   }, []);
 
+  // Check if user is already logged in and redirect to dashboard
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        console.log("User already logged in, redirecting to dashboard...");
+        navigate("/");
+      }
+    };
+    checkSession();
+  }, [navigate]);
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -56,9 +68,21 @@ const Auth = () => {
         navigate("/");
       }
     } catch (error: any) {
+      console.error("Login error:", error);
+
+      let errorMessage = error.message || "An unknown error occurred";
+
+      if (error.message?.includes("fetch")) {
+        errorMessage = "Connection failed. Please check if Supabase is active and your internet connection is working.";
+      } else if (error.message?.includes("Invalid login credentials")) {
+        errorMessage = "Invalid email or password. Please try again.";
+      } else if (error.message?.includes("Email not confirmed")) {
+        errorMessage = "Please verify your email before logging in.";
+      }
+
       toast({
         title: "Error",
-        description: error.message,
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -108,9 +132,19 @@ const Auth = () => {
         setIsSignUpActive(false);
       }
     } catch (error: any) {
+      console.error("Signup error:", error);
+
+      let errorMessage = error.message || "An unknown error occurred";
+
+      if (error.message?.includes("fetch")) {
+        errorMessage = "Connection failed. Please check if Supabase is active and your internet connection is working.";
+      } else if (error.message?.includes("already registered")) {
+        errorMessage = "This email is already registered. Please sign in instead.";
+      }
+
       toast({
         title: "Error",
-        description: error.message,
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -441,7 +475,7 @@ const Auth = () => {
               <a href="#" className="hover:underline">Forgot your password?</a>
             </div>
             <button className="btn-custom" disabled={isLoading}>
-              {isLoading ? "Sign In" : "Sign In"}
+              {isLoading ? "Signing In..." : "Sign In"}
             </button>
           </form>
         </div>

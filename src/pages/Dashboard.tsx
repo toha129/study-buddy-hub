@@ -88,17 +88,17 @@ const Dashboard = () => {
       if (!user) return [];
       const { data } = await supabase
         .from('todos')
-        .select('task, id, due_date')
+        .select('title, id, deadline')
         .eq('user_id', user.id)
         .eq('completed', false)
         .limit(3);
-      return (data || []) as unknown as { task: string; id: string; due_date?: string }[];
+      return (data || []) as unknown as { title: string; id: string; deadline?: string }[];
     },
   });
 
   const notifications = [
     ...activeQuizzes.map(q => ({ type: 'quiz', title: `Quiz Pending: ${q.title}`, id: q.id })),
-    ...pendingTodos.map(t => ({ type: 'todo', title: `Task Due: ${t.task}`, id: t.id }))
+    ...pendingTodos.map(t => ({ type: 'todo', title: `Task Due: ${t.title}`, id: t.id }))
   ];
 
   return (
