@@ -19,12 +19,12 @@ interface Message {
 
 const AIChatTerminal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
     const [messages, setMessages] = useState<Message[]>([
-        { role: 'assistant', content: "DeepSeek R1 Online. Neural Link Active. Ready for queries." }
+        { role: 'assistant', content: "Gemini Flash Online. Neural Link Active. Ready for queries." }
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [selectedFile, setSelectedFile] = useState<{ name: string, type: 'image' | 'file', content: string } | null>(null);
-    const [activeModel, setActiveModel] = useState<'deepseek' | 'gemini'>('deepseek');
+    const [activeModel, setActiveModel] = useState<'deepseek' | 'gemini'>('gemini');
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const scrollRef = useRef<HTMLDivElement>(null);
